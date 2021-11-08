@@ -1,26 +1,3 @@
-## Jetpack Compose
-
-[https://developer.android.com/courses/pathways/compose](https://developer.android.com/courses/pathways/compose)
-
-## 11월 8일 월요일
-
-- 유진
-    - pathways 4-6까지 완료
-- 도현
-    - 1주차 동영상 강의
-    - pathways 4번까지 진행 예정
-- 경문
-    - 1주차 동영상 강의
-    - pathways 4번까지 진행 예정
-- 헌진
-    - pathways 4-12번까지 완료
-- 채은
-    - pathways 6번 진행중
-- 종국
-    - pathways 3번 진행중
-
-
-
 # ComposeFest2021
 
 안녕하세요 Compose 코드랩에 오신걸 환영합니다.  
