@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
@@ -29,7 +31,8 @@ class MainActivity : ComponentActivity() {
       MyCodelab2Theme {
         // A surface container using the 'background' color from the theme
         Surface(color = MaterialTheme.colors.background) {
-          PhotographerCard()
+//          PhotographerCard()
+          LayoutsCodelab()
         }
       }
     }
@@ -66,10 +69,44 @@ fun PhotographerCard(modifier: Modifier = Modifier) {
   }
 }
 
+
+@Composable
+fun LayoutsCodelab() {
+  Scaffold(
+    topBar = {
+      TopAppBar(
+        title = {
+          Text(text = "LayoutsCodelab")
+        },
+        actions = {
+          IconButton(onClick = { /* doSomething() */ }) {
+            Icon(Icons.Filled.Favorite, contentDescription = null)
+          }
+        }
+      )
+    }
+  ) { innerPadding ->
+    BodyContent(
+      Modifier
+        .padding(innerPadding)
+        .padding(8.dp)
+    )
+  }
+}
+
+@Composable
+fun BodyContent(modifier: Modifier = Modifier) {
+  Column(modifier = modifier.padding(8.dp)) {
+    Text(text = "Hi there!")
+    Text(text = "Thanks for going through the Layouts codelab")
+  }
+}
+
 @Preview
 @Composable
 fun PhotographerCardPreview() {
   MyCodelab2Theme {
-    PhotographerCard()
+//    PhotographerCard()
+    LayoutsCodelab()
   }
 }

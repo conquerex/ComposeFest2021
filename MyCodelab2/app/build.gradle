@@ -58,6 +58,7 @@ dependencies {
 
     // add
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0-rc01"
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
