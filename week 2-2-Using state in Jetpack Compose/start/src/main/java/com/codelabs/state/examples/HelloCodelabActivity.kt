@@ -40,27 +40,27 @@ import com.codelabs.state.databinding.ActivityHelloCodelabBinding
  */
 class HelloCodelabActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityHelloCodelabBinding
-    var name = ""
+  private lateinit var binding: ActivityHelloCodelabBinding
+  var name = ""
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityHelloCodelabBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    binding = ActivityHelloCodelabBinding.inflate(layoutInflater)
+    setContentView(binding.root)
 
-        // doAfterTextChange is an event that modifies state
-        binding.textInput.doAfterTextChanged { text ->
-            name = text.toString()
-            updateHello()
-        }
+    // doAfterTextChange is an event that modifies state
+    binding.textInput.doAfterTextChanged { text ->
+      name = text.toString()
+      updateHello()
     }
+  }
 
-    /**
-     * This function updates the screen to show the current state of [name]
-     */
-    private fun updateHello() {
-        binding.helloText.text = "Hello, $name"
-    }
+  /**
+   * This function updates the screen to show the current state of [name]
+   */
+  private fun updateHello() {
+    binding.helloText.text = "Hello, $name"
+  }
 }
 
 /**
@@ -68,66 +68,66 @@ class HelloCodelabActivity : AppCompatActivity() {
  */
 class HelloViewModel : ViewModel() {
 
-    // LiveData holds state which is observed by the UI
-    // (state flows down from ViewModel)
-    private val _name = MutableLiveData("")
-    val name: LiveData<String> = _name
+  // LiveData holds state which is observed by the UI
+  // (state flows down from ViewModel)
+  private val _name = MutableLiveData("")
+  val name: LiveData<String> = _name
 
-    // onNameChanged is an event we're defining that the UI can invoke
-    // (events flow up from UI)
-    fun onNameChanged(newName: String) {
-        _name.value = newName
-    }
+  // onNameChanged is an event we're defining that the UI can invoke
+  // (events flow up from UI)
+  fun onNameChanged(newName: String) {
+    _name.value = newName
+  }
 }
 
 /**
  * An example showing unidirectional data flow in the View system using a ViewModel.
  */
 class HelloCodeLabActivityWithViewModel : AppCompatActivity() {
-    private val helloViewModel by viewModels<HelloViewModel>()
+  private val helloViewModel by viewModels<HelloViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val binding = ActivityHelloCodelabBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    val binding = ActivityHelloCodelabBinding.inflate(layoutInflater)
+    setContentView(binding.root)
 
-        // doAfterTextChange is an event that triggers an event on the ViewModel
-        binding.textInput.doAfterTextChanged {
-            // onNameChanged is an event on the ViewModel
-            helloViewModel.onNameChanged(it.toString())
-        }
-        // [helloViewModel.name] is state that we observe to update the UI
-        helloViewModel.name.observe(this) { name ->
-            binding.helloText.text = "Hello, $name"
-        }
+    // doAfterTextChange is an event that triggers an event on the ViewModel
+    binding.textInput.doAfterTextChanged {
+      // onNameChanged is an event on the ViewModel
+      helloViewModel.onNameChanged(it.toString())
     }
+    // [helloViewModel.name] is state that we observe to update the UI
+    helloViewModel.name.observe(this) { name ->
+      binding.helloText.text = "Hello, $name"
+    }
+  }
 }
 
 class HelloActivityCompose : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            HelloScreen()
-        }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContent {
+      HelloScreen()
     }
+  }
 }
 
 @Composable
 private fun HelloScreen(helloViewModel: HelloViewModel = viewModel()) {
-    // helloViewModel follows the Lifecycle as the the Activity or Fragment that calls this
-    // composable function.
+  // helloViewModel follows the Lifecycle as the the Activity or Fragment that calls this
+  // composable function.
 
-    // name is the _current_ value of [helloViewModel.name]
-    val name: String by helloViewModel.name.observeAsState("")
+  // name is the _current_ value of [helloViewModel.name]
+  val name: String by helloViewModel.name.observeAsState("")
 
-    HelloInput(name = name, onNameChange = { helloViewModel.onNameChanged(it) })
+  HelloInput(name = name, onNameChange = { helloViewModel.onNameChanged(it) })
 }
 
 @Composable
 private fun HelloScreenWithInternalState() {
-    val (name, setName) = remember { mutableStateOf("") }
-    HelloInput(name = name, onNameChange = setName)
+  val (name, setName) = remember { mutableStateOf("") }
+  HelloInput(name = name, onNameChange = setName)
 }
 
 /**
@@ -136,15 +136,15 @@ private fun HelloScreenWithInternalState() {
  */
 @Composable
 private fun HelloInput(
-    name: String,
-    onNameChange: (String) -> Unit
+  name: String,
+  onNameChange: (String) -> Unit
 ) {
-    Column {
-        Text(name)
-        TextField(
-            value = name,
-            onValueChange = onNameChange,
-            label = { Text("Name") }
-        )
-    }
+  Column {
+    Text(name)
+    TextField(
+      value = name,
+      onValueChange = onNameChange,
+      label = { Text("Name") }
+    )
+  }
 }

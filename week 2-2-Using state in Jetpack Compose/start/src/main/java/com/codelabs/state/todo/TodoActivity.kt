@@ -25,16 +25,16 @@ import com.codelabs.state.ui.StateCodelabTheme
 
 class TodoActivity : AppCompatActivity() {
 
-    val todoViewModel by viewModels<TodoViewModel>()
+  val todoViewModel by viewModels<TodoViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            StateCodelabTheme {
-                Surface {
-                    // TODO: build the screen in compose
-                }
-            }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContent {
+      StateCodelabTheme {
+        Surface {
+          // TODO: build the screen in compose
         }
+      }
     }
+  }
 }
