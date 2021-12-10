@@ -33,6 +33,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.example.compose.rally.data.UserData
 import com.example.compose.rally.ui.accounts.AccountsBody
 import com.example.compose.rally.ui.accounts.SingleAccountBody
@@ -104,10 +105,15 @@ fun RallyApp() {
           "$accountsName/{name}",
           arguments = listOf(
             navArgument("name") {
-              // Make argument type safe
               type = NavType.StringType
-            }
-          )
+            },
+          ),
+          // 테스트 command
+          // adb shell am start -d "rally://accounts/Checking" -a android.intent.action.VIEW
+          // 작동하지 않을 시 caches clear하고 다시 해볼 것!!
+          deepLinks = listOf(navDeepLink {
+            uriPattern = "rally://$accountsName/{name}"
+          })
         ) { entry -> // Look up "name" in NavBackStackEntry's arguments
           val accountName = entry.arguments?.getString("name")
           // Find first name match in UserData
