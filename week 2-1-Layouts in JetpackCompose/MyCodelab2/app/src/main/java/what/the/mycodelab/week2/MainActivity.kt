@@ -3,10 +3,7 @@ package what.the.mycodelab.week2
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -165,7 +162,8 @@ fun Chip(modifier: Modifier = Modifier, text: String) {
       verticalAlignment = Alignment.CenterVertically
     ) {
       Box(
-        modifier = Modifier.size(16.dp, 16.dp)
+        modifier = Modifier
+          .size(16.dp, 16.dp)
           .background(color = MaterialTheme.colors.secondary)
       )
       Spacer(Modifier.width(4.dp))
@@ -202,11 +200,24 @@ fun BodyContent(modifier: Modifier = Modifier) {
 //    Text("We've done it by hand!")
 //  }
 
-  StaggeredGrid(modifier = modifier) {
-    for (topic in topics) {
-      Chip(modifier = Modifier.padding(8.dp), text = topic)
-    }
-  }
+//  StaggeredGrid(modifier = modifier) {
+//    for (topic in topics) {
+//      Chip(modifier = Modifier.padding(8.dp), text = topic)
+//    }
+//  }
+
+  Row(modifier = modifier
+    .background(color = Color.LightGray)
+    .padding(16.dp)
+    .size(200.dp)
+    .horizontalScroll(rememberScrollState()),
+    content = {
+      StaggeredGrid {
+        for (topic in topics) {
+          Chip(modifier = Modifier.padding(8.dp), text = topic)
+        }
+      }
+    })
 }
 
 @Composable
