@@ -36,35 +36,35 @@ import com.example.compose.rally.ui.theme.RallyTheme
  * https://material.io/design/material-studies/rally.html
  */
 class RallyActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            RallyApp()
-        }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContent {
+      RallyApp()
     }
+  }
 }
 
 @Composable
 fun RallyApp() {
-    RallyTheme {
-        val allScreens = RallyScreen.values().toList()
-        var currentScreen by rememberSaveable { mutableStateOf(RallyScreen.Overview) }
-        Scaffold(
-            topBar = {
-                RallyTabRow(
-                    allScreens = allScreens,
-                    onTabSelected = { screen -> currentScreen = screen },
-                    currentScreen = currentScreen
-                )
-            }
-        ) { innerPadding ->
-            Box(Modifier.padding(innerPadding)) {
-                currentScreen.content(
-                    onScreenChange = { screen ->
-                        currentScreen = RallyScreen.valueOf(screen)
-                    }
-                )
-            }
-        }
+  RallyTheme {
+    val allScreens = RallyScreen.values().toList()
+    var currentScreen by rememberSaveable { mutableStateOf(RallyScreen.Overview) }
+    Scaffold(
+      topBar = {
+        RallyTabRow(
+          allScreens = allScreens,
+          onTabSelected = { screen -> currentScreen = screen },
+          currentScreen = currentScreen
+        )
+      }
+    ) { innerPadding ->
+      Box(Modifier.padding(innerPadding)) {
+        currentScreen.content(
+          onScreenChange = { screen ->
+            currentScreen = RallyScreen.valueOf(screen)
+          }
+        )
+      }
     }
+  }
 }
