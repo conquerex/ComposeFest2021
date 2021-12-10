@@ -16,10 +16,10 @@
 
 package com.example.android.codelab.animation.ui.home
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.splineBasedDecay
+import androidx.compose.animation.*
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -229,8 +229,15 @@ private fun HomeFloatingActionButton(
         contentDescription = null
       )
       // Toggle the visibility of the content with animation.
-      // TODO 2-1: Animate this visibility change.
-      if (extended) {
+      // 2-1: Animate this visibility change.
+//      if (extended) {
+//        Text(
+//          text = stringResource(R.string.edit),
+//          modifier = Modifier
+//            .padding(start = 8.dp, top = 3.dp)
+//        )
+//      }
+      AnimatedVisibility(extended) {
         Text(
           text = stringResource(R.string.edit),
           modifier = Modifier
@@ -247,10 +254,34 @@ private fun HomeFloatingActionButton(
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun EditMessage(shown: Boolean) {
-  // TODO 2-2: The message should slide down from the top on appearance and slide up on
+  // 2-2: The message should slide down from the top on appearance and slide up on
   //           disappearance.
+//  AnimatedVisibility(
+//    visible = shown
+//  ) {
+//    Surface(
+//      modifier = Modifier.fillMaxWidth(),
+//      color = MaterialTheme.colors.secondary,
+//      elevation = 4.dp
+//    ) {
+//      Text(
+//        text = stringResource(R.string.edit_message),
+//        modifier = Modifier.padding(16.dp)
+//      )
+//    }
+//  }
   AnimatedVisibility(
-    visible = shown
+    visible = shown,
+    enter = slideInVertically(
+      // Enters by sliding down from offset -fullHeight to 0.
+      initialOffsetY = { fullHeight -> -fullHeight },
+      animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
+    ),
+    exit = slideOutVertically(
+      // Exits by sliding up from offset 0 to -fullHeight.
+      targetOffsetY = { fullHeight -> -fullHeight },
+      animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
+    )
   ) {
     Surface(
       modifier = Modifier.fillMaxWidth(),
@@ -322,8 +353,8 @@ private fun TopicRow(topic: String, expanded: Boolean, onClick: () -> Unit) {
     // TODO 3: Animate the size change of the content.
     Column(
       modifier = Modifier
-          .fillMaxWidth()
-          .padding(16.dp)
+        .fillMaxWidth()
+        .padding(16.dp)
     ) {
       Row {
         Icon(
@@ -408,17 +439,17 @@ private fun HomeTabIndicator(
   val indicatorRight = tabPositions[tabPage.ordinal].right
   val color = if (tabPage == TabPage.Home) Purple700 else Green800
   Box(
-      Modifier
-          .fillMaxSize()
-          .wrapContentSize(align = Alignment.BottomStart)
-          .offset(x = indicatorLeft)
-          .width(indicatorRight - indicatorLeft)
-          .padding(4.dp)
-          .fillMaxSize()
-          .border(
-              BorderStroke(2.dp, color),
-              RoundedCornerShape(4.dp)
-          )
+    Modifier
+      .fillMaxSize()
+      .wrapContentSize(align = Alignment.BottomStart)
+      .offset(x = indicatorLeft)
+      .width(indicatorRight - indicatorLeft)
+      .padding(4.dp)
+      .fillMaxSize()
+      .border(
+        BorderStroke(2.dp, color),
+        RoundedCornerShape(4.dp)
+      )
   )
 }
 
@@ -439,8 +470,8 @@ private fun HomeTab(
 ) {
   Row(
     modifier = modifier
-        .clickable(onClick = onClick)
-        .padding(16.dp),
+      .clickable(onClick = onClick)
+      .padding(16.dp),
     horizontalArrangement = Arrangement.Center,
     verticalAlignment = Alignment.CenterVertically
   ) {
@@ -464,15 +495,15 @@ private fun WeatherRow(
 ) {
   Row(
     modifier = Modifier
-        .heightIn(min = 64.dp)
-        .padding(16.dp),
+      .heightIn(min = 64.dp)
+      .padding(16.dp),
     verticalAlignment = Alignment.CenterVertically
   ) {
     Box(
       modifier = Modifier
-          .size(48.dp)
-          .clip(CircleShape)
-          .background(Amber600)
+        .size(48.dp)
+        .clip(CircleShape)
+        .background(Amber600)
     )
     Spacer(modifier = Modifier.width(16.dp))
     Text(text = stringResource(R.string.temperature), fontSize = 24.sp)
@@ -495,22 +526,22 @@ private fun LoadingRow() {
   val alpha = 1f
   Row(
     modifier = Modifier
-        .heightIn(min = 64.dp)
-        .padding(16.dp),
+      .heightIn(min = 64.dp)
+      .padding(16.dp),
     verticalAlignment = Alignment.CenterVertically
   ) {
     Box(
       modifier = Modifier
-          .size(48.dp)
-          .clip(CircleShape)
-          .background(Color.LightGray.copy(alpha = alpha))
+        .size(48.dp)
+        .clip(CircleShape)
+        .background(Color.LightGray.copy(alpha = alpha))
     )
     Spacer(modifier = Modifier.width(16.dp))
     Box(
       modifier = Modifier
-          .fillMaxWidth()
-          .height(32.dp)
-          .background(Color.LightGray.copy(alpha = alpha))
+        .fillMaxWidth()
+        .height(32.dp)
+        .background(Color.LightGray.copy(alpha = alpha))
     )
   }
 }
@@ -525,14 +556,14 @@ private fun LoadingRow() {
 private fun TaskRow(task: String, onRemove: () -> Unit) {
   Surface(
     modifier = Modifier
-        .fillMaxWidth()
-        .swipeToDismiss(onRemove),
+      .fillMaxWidth()
+      .swipeToDismiss(onRemove),
     elevation = 2.dp
   ) {
     Row(
       modifier = Modifier
-          .fillMaxWidth()
-          .padding(16.dp)
+        .fillMaxWidth()
+        .padding(16.dp)
     ) {
       Icon(
         imageVector = Icons.Default.Check,
