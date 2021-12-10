@@ -19,7 +19,6 @@ package com.example.compose.rally
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -28,7 +27,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.compose.rally.data.UserData
+import com.example.compose.rally.ui.accounts.AccountsBody
+import com.example.compose.rally.ui.bills.BillsBody
 import com.example.compose.rally.ui.components.RallyTabRow
+import com.example.compose.rally.ui.overview.OverviewBody
 import com.example.compose.rally.ui.theme.RallyTheme
 
 /**
@@ -48,7 +54,10 @@ class RallyActivity : ComponentActivity() {
 fun RallyApp() {
   RallyTheme {
     val allScreens = RallyScreen.values().toList()
-    var currentScreen by rememberSaveable { mutableStateOf(RallyScreen.Overview) }
+    var currentScreen by rememberSaveable {
+      mutableStateOf(RallyScreen.Overview)
+    }
+    val navController = rememberNavController()
     Scaffold(
       topBar = {
         RallyTabRow(
@@ -58,12 +67,24 @@ fun RallyApp() {
         )
       }
     ) { innerPadding ->
-      Box(Modifier.padding(innerPadding)) {
-        currentScreen.content(
-          onScreenChange = { screen ->
-            currentScreen = RallyScreen.valueOf(screen)
-          }
-        )
+      NavHost(
+        navController = navController,
+        startDestination = RallyScreen.Overview.name,
+        modifier = Modifier.padding(innerPadding)
+      ) {
+
+        composable(RallyScreen.Overview.name) {
+          OverviewBody(
+            onClickSeeAllAccounts = { navController.navigate(RallyScreen.Accounts.name) },
+            onClickSeeAllBills = { navController.navigate(RallyScreen.Bills.name) }
+          )
+        }
+        composable(RallyScreen.Accounts.name) {
+          AccountsBody(accounts = UserData.accounts)
+        }
+        composable(RallyScreen.Bills.name) {
+          BillsBody(bills = UserData.bills)
+        }
       }
     }
   }
