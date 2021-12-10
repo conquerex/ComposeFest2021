@@ -26,29 +26,29 @@ import com.codelabs.state.ui.StateCodelabTheme
 
 class TodoActivity : AppCompatActivity() {
 
-    val todoViewModel by viewModels<TodoViewModel>()
+  val todoViewModel by viewModels<TodoViewModel>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            StateCodelabTheme {
-                Surface {
-                    TodoActivityScreen(todoViewModel)
-                }
-            }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContent {
+      StateCodelabTheme {
+        Surface {
+          TodoActivityScreen(todoViewModel)
         }
+      }
     }
+  }
 }
 
 @Composable
 private fun TodoActivityScreen(todoViewModel: TodoViewModel) {
-    TodoScreen(
-        items = todoViewModel.todoItems,
-        currentlyEditing = todoViewModel.currentEditItem,
-        onAddItem = todoViewModel::addItem,
-        onRemoveItem = todoViewModel::removeItem,
-        onStartEdit = todoViewModel::onEditItemSelected,
-        onEditItemChange = todoViewModel::onEditItemChange,
-        onEditDone = todoViewModel::onEditDone
-    )
+  TodoScreen(
+    items = todoViewModel.todoItems,
+    currentlyEditing = todoViewModel.currentEditItem,
+    onAddItem = todoViewModel::addItem,
+    onRemoveItem = todoViewModel::removeItem,
+    onStartEdit = todoViewModel::onEditItemSelected,
+    onEditItemChange = todoViewModel::onEditItemChange,
+    onEditDone = todoViewModel::onEditDone
+  )
 }
