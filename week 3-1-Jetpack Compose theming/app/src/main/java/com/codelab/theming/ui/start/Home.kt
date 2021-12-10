@@ -17,7 +17,6 @@
 package com.codelab.theming.ui.start
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,14 +25,12 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.heading
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -86,7 +83,7 @@ private fun AppBar() {
     title = {
       Text(text = stringResource(R.string.app_title))
     },
-    backgroundColor = MaterialTheme.colors.primary
+    backgroundColor = MaterialTheme.colors.primarySurface
   )
 }
 
@@ -95,14 +92,18 @@ fun Header(
   text: String,
   modifier: Modifier = Modifier
 ) {
-  Text(
-    text = text,
+  Surface(
+    color = MaterialTheme.colors.onSurface.copy(alpha = 0.1f),
+    contentColor = MaterialTheme.colors.primary,
     modifier = modifier
-      .fillMaxWidth()
-      .background(Color.LightGray)
-      .semantics { heading() }
-      .padding(horizontal = 16.dp, vertical = 8.dp)
-  )
+  ) {
+    Text(
+      text = text,
+      modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 16.dp, vertical = 8.dp)
+    )
+  }
 }
 
 @Composable
@@ -164,6 +165,13 @@ private fun PostMetadata(
     text = text,
     modifier = modifier
   )
+
+  CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+    Text(
+      text = text,
+      modifier = modifier
+    )
+  }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
