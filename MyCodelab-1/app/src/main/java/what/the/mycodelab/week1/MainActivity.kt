@@ -3,8 +3,11 @@ package what.the.mycodelab.week1
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -38,15 +41,34 @@ class MainActivity : ComponentActivity() {
  */
 @Composable
 private fun Greeting(name: String) {
-  Surface(color = MaterialTheme.colors.primary) {
-    Text(text = "Hello $name!", modifier = Modifier.padding(24.dp))
+  Surface(
+    color = MaterialTheme.colors.primary,
+    modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
+  ) {
+//    Column(modifier = Modifier
+//      .fillMaxWidth()
+//      .padding(24.dp)) {
+//      Text(text = "Hello,")
+//      Text(text = name)
+//    }
+    Row(modifier = Modifier.padding(24.dp)) {
+      Column(modifier = Modifier.weight(1f)) {
+        Text(text = "Hello, ")
+        Text(text = name)
+      }
+      OutlinedButton(
+        onClick = { /* TODO */ }
+      ) {
+        Text("Show more")
+      }
+    }
   }
 }
 
 /**
  * @Preview 를 통해 다양한 프리뷰를 볼 수 있다.
  */
-@Preview(showBackground = true)
+@Preview(showBackground = true, widthDp = 320)
 @Composable
 private fun DefaultPreview() {
   MyCodelabTheme {
@@ -60,8 +82,15 @@ private fun DefaultPreview() {
  * - 마치 xml 에서 <include> 를 사용했던 것처럼
  */
 @Composable
-private fun MyApp() {
-  Surface(color = MaterialTheme.colors.background) {
-    Greeting("Android")
+private fun MyApp(
+  names: List<String> = listOf("World", "Compose")
+) {
+//  Surface(color = MaterialTheme.colors.background) {
+//    Greeting("Android")
+//  }
+  Column(modifier = Modifier.padding(vertical = 4.dp)) {
+    for (name in names) {
+      Greeting(name = name)
+    }
   }
 }
